@@ -2,17 +2,11 @@ import * as React from 'react';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { Link } from 'react-router-dom';
 
-// TODO remove, this demo shouldn't need to reset the theme.
-
-// const defaultTheme = createTheme();
-
-function Login() {
+function Register() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -23,7 +17,6 @@ function Login() {
   };
 
   return (
-    // <ThemeProvider theme={defaultTheme}>
         <Container component="main" maxWidth="xs">
             <CssBaseline />
             <Box
@@ -35,9 +28,18 @@ function Login() {
             }}
             >
             <Typography component="h1" variant="h5">
-                Agendamento
+                Cadastro
             </Typography>
             <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+                <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="name"
+                label="Nome"
+                name="name"
+                autoFocus
+                />
                 <TextField
                 margin="normal"
                 required
@@ -46,7 +48,6 @@ function Login() {
                 label="E-mail"
                 name="email"
                 autoComplete="email"
-                autoFocus
                 />
                 <TextField
                 margin="normal"
@@ -56,7 +57,15 @@ function Login() {
                 label="Senha"
                 type="password"
                 id="password"
-                autoComplete="current-password"
+                />
+                <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="confirm-password"
+                label="Confirmar senha"
+                type="password"
+                id="confirm-password"
                 />
                 <Button
                 type="submit"
@@ -64,20 +73,12 @@ function Login() {
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
                 >
-                Entrar
+                Enviar
                 </Button>
-                <Grid container>
-                <Grid item>
-                    <Link to="/cadastro" variant="body2">
-                    {"Não possui conta? Cadastre-se"}
-                    </Link>
-                </Grid>
-                </Grid>
             </Box>
             </Box>
         </Container>
-    // </ThemeProvider>
   );
 }
 
-export default Login;
+export default Register;
