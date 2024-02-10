@@ -5,16 +5,28 @@ import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
+import { useNavigate } from 'react-router-dom';
+import useAuth from '../hooks/useAuth';
 
 function Register() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-  };
+    const { register } = useAuth();
+    const navigate = useNavigate();
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        const data = new FormData(event.currentTarget);
+        const payload = {
+            name: data.get('name'), 
+            email: data.get('email'), 
+            password: data.get('password'),
+        }
+        try {
+            await register(payload);
+            navigate('/app/perfil');
+        } catch (error) {
+            console.log('error', error);
+        }
+    };
 
   return (
         <Container component="main" maxWidth="xs">
@@ -58,7 +70,7 @@ function Register() {
                 type="password"
                 id="password"
                 />
-                <TextField
+                {/* <TextField
                 margin="normal"
                 required
                 fullWidth
@@ -66,7 +78,7 @@ function Register() {
                 label="Confirmar senha"
                 type="password"
                 id="confirm-password"
-                />
+                /> */}
                 <Button
                 type="submit"
                 fullWidth

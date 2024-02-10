@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { loginRequest, logoutRequest } from "../services/auth";
+import { loginRequest, logoutRequest, registerRequest } from "../services/auth";
 
 export default function useAuthProvider() {
 
@@ -17,10 +17,17 @@ export default function useAuthProvider() {
         setUser(null);
     }
 
+    const register = async (payload) => {
+        const user = await registerRequest(payload);
+        // console.log('login', user);
+        setUser(user);
+    }
+
     return {
         user,
         login,
         logout,
+        register,
     }
     
 }

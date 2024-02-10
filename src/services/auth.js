@@ -10,20 +10,20 @@ export async function loginRequest(params) {
         params, 
         { withCredentials: true }
     );
-    
-    console.log(result);
+
     return result
     
 }
 
-export async function register(params) {
+export async function registerRequest(params) {
 
     const result = await axios.post(
         `${serverBaseUrl}/auth/register/`,
-        params
+        params,
+        { withCredentials: true }
     );
 
-    console.log(result);
+    return result;
 
 }
 
@@ -35,7 +35,6 @@ export async function logoutRequest() {
         {withCredentials: true}
     );
 
-    console.log('logout request', result);
     return result;
     
 }
