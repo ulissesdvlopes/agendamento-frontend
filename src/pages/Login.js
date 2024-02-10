@@ -6,24 +6,26 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { Link } from 'react-router-dom';
-
-// TODO remove, this demo shouldn't need to reset the theme.
-
-// const defaultTheme = createTheme();
+import { Link, useNavigate } from 'react-router-dom';
+import useAuth from '../hooks/useAuth';
 
 function Login() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-  };
 
-  return (
-    // <ThemeProvider theme={defaultTheme}>
+    const { login } = useAuth();
+    const navigate = useNavigate();
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        const data = new FormData(event.currentTarget);
+        try {
+            await login(data.get('email'), data.get('password'));
+            navigate('/app/perfil');
+        } catch (error) {
+            console.log('error', error);
+        }
+    };
+
+    return (
         <Container component="main" maxWidth="xs">
             <CssBaseline />
             <Box
@@ -76,8 +78,7 @@ function Login() {
             </Box>
             </Box>
         </Container>
-    // </ThemeProvider>
-  );
+    );
 }
 
 export default Login;
