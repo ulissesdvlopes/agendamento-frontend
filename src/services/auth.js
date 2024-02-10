@@ -11,7 +11,7 @@ export async function loginRequest(params) {
         { withCredentials: true }
     );
 
-    return result
+    return result.data;
     
 }
 
@@ -23,7 +23,7 @@ export async function registerRequest(params) {
         { withCredentials: true }
     );
 
-    return result;
+    return result.data;
 
 }
 

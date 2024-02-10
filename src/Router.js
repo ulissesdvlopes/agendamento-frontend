@@ -26,11 +26,11 @@ const router = createBrowserRouter([
         element: <AuthLayout />,
         children: [
             {
-                path: "/app/agendamentos",
+                path: "/app",
                 element: <Schedulings />
             },
             {
-                path: "/app/perfil",
+                path: "/app/conta",
                 element: <Profile />
             },
         ]

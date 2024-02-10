@@ -19,7 +19,7 @@ function Login() {
         const data = new FormData(event.currentTarget);
         try {
             await login(data.get('email'), data.get('password'));
-            navigate('/app/perfil');
+            navigate('/app');
         } catch (error) {
             console.log('error', error);
         }
@@ -36,46 +36,46 @@ function Login() {
                 alignItems: 'center',
             }}
             >
-            <Typography component="h1" variant="h5">
-                Agendamento
-            </Typography>
-            <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-                <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="email"
-                label="E-mail"
-                name="email"
-                autoComplete="email"
-                autoFocus
-                />
-                <TextField
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="Senha"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-                />
-                <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-                >
-                Entrar
-                </Button>
-                <Grid container>
-                <Grid item>
-                    <Link to="/cadastro" variant="body2">
-                    {"Não possui conta? Cadastre-se"}
-                    </Link>
-                </Grid>
-                </Grid>
-            </Box>
+                <Typography component="h1" variant="h5">
+                    Agendamento
+                </Typography>
+                <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+                    <TextField
+                        margin="normal"
+                        required
+                        fullWidth
+                        id="email"
+                        label="E-mail"
+                        name="email"
+                        autoComplete="email"
+                        autoFocus
+                    />
+                    <TextField
+                        margin="normal"
+                        required
+                        fullWidth
+                        name="password"
+                        label="Senha"
+                        type="password"
+                        id="password"
+                        autoComplete="current-password"
+                    />
+                    <Button
+                        type="submit"
+                        fullWidth
+                        variant="contained"
+                        sx={{ mt: 3, mb: 2 }}
+                    >
+                    Entrar
+                    </Button>
+                    <Grid container>
+                        <Grid item>
+                            <Link to="/cadastro" variant="body2">
+                            {"Não possui conta? Cadastre-se"}
+                            </Link>
+                        </Grid>
+                    </Grid>
+                </Box>
             </Box>
         </Container>
     );
