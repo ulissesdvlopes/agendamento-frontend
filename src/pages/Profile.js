@@ -68,7 +68,6 @@ function Profile() {
                     name="password"
                     label="Nova senha"
                     type="password"
-                    id="password"
                 />
                 {/* <TextField
                 margin="normal"
