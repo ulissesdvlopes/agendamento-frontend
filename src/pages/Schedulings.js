@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { getSchedulings } from "../services/schedulings";
-import { Box, Card, CardActionArea, CardContent, CardHeader, Container, Divider, Fab, Grid, Icon, IconButton, List, ListItem, ListItemIcon, ListItemText, Typography } from "@mui/material";
-import { Add, Build, CalendarMonth, Delete, DirectionsCar, Edit } from "@mui/icons-material";
+import { Box, Card, CardContent, CardHeader, Container, Divider, Fab, Grid, IconButton, List, ListItem, ListItemIcon, ListItemText, Typography } from "@mui/material";
+import { Add, Build, Delete, DirectionsCar, Edit } from "@mui/icons-material";
 import { getServiceName } from "../utils/schedulings";
+import { useNavigate } from "react-router-dom";
 
 function Schedulings() {
 
+    const navigate = useNavigate();
     const [list, setList] = useState([]);
 
     useEffect(() => {
@@ -20,8 +22,6 @@ function Schedulings() {
         }
         getData();
     }, [])
-
-    console.log(list);
 
     return (
         <Container>
@@ -46,7 +46,7 @@ function Schedulings() {
                                 }
                                 action={
                                     <>
-                                    <IconButton aria-label="editar">
+                                    <IconButton aria-label="editar" onClick={() => navigate(`/app/${item.id}`)}>
                                         <Edit />
                                     </IconButton>
                                     <IconButton aria-label="editar">
@@ -81,6 +81,7 @@ function Schedulings() {
             </Box>
             <Fab color="primary" variant="extended" aria-label="Novo agendamento" 
                 style={{position:'fixed', bottom:'2rem', right:'2rem'}}
+                onClick={() => navigate('/app/new')}
             >
                     <Add/>
                     Novo agendamento

@@ -5,6 +5,7 @@ import Register from "./pages/Register";
 import Schedulings from "./pages/Schedulings";
 import Profile from "./pages/Profile";
 import AuthLayout from "./components/Layout/AuthLayout";
+import Scheduling from "./pages/Scheduling";
 
 const router = createBrowserRouter([
     {
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
             {
                 path: "/app",
                 element: <Schedulings />
+            },
+            {
+              path: "/app/:id",
+              element: <Scheduling />
             },
             {
                 path: "/app/conta",

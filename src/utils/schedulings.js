@@ -1,10 +1,8 @@
+export const SERVICE_TYPES = [
+    {value: 'alignment', label: 'Alinhamento'},
+    {value: 'inspection', label: 'Revisão'},
+]
+
 export function getServiceName(serviceType) {
-    switch (serviceType) {
-        case 'alignment':
-            return 'Alinhamento';
-        case 'inspection':
-            return 'Revisão';
-        default:
-            return '';
-    }
+    return SERVICE_TYPES.find(item => item.value === serviceType).label;
 }
