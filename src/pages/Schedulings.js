@@ -1,27 +1,49 @@
 import { useEffect, useState } from "react";
-import { getSchedulings } from "../services/schedulings";
+import { deleteScheduling, getSchedulings } from "../services/schedulings";
 import { Box, Card, CardContent, CardHeader, Container, Divider, Fab, Grid, IconButton, List, ListItem, ListItemIcon, ListItemText, Typography } from "@mui/material";
 import { Add, Build, Delete, DirectionsCar, Edit } from "@mui/icons-material";
 import { getServiceName } from "../utils/schedulings";
 import { useNavigate } from "react-router-dom";
+import ConfirmDialog from "../components/ConfirmDialog/ConfirmDialog";
 
 function Schedulings() {
 
     const navigate = useNavigate();
     const [list, setList] = useState([]);
+    const [selectedToDelete, setSelectedToDelete] = useState(null);
 
     useEffect(() => {
-        const getData = async () => {
-            try {
-                const result = await getSchedulings();
-                setList(result);
+        // const getData = async () => {
+        //     try {
+        //         const result = await getSchedulings();
+        //         setList(result);
 
-            } catch (error) {
-                console.log('error', error);
-            }
-        }
+        //     } catch (error) {
+        //         console.log('error', error);
+        //     }
+        // }
         getData();
     }, [])
+
+    const getData = async () => {
+        try {
+            const result = await getSchedulings();
+            setList(result);
+
+        } catch (error) {
+            console.log('error', error);
+        }
+    }
+
+    const handleDelete = async () => {
+        try {
+            await deleteScheduling(selectedToDelete?.id);
+            setSelectedToDelete(null);
+            getData();
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     return (
         <Container>
@@ -49,7 +71,7 @@ function Schedulings() {
                                     <IconButton aria-label="editar" onClick={() => navigate(`/app/${item.id}`)}>
                                         <Edit />
                                     </IconButton>
-                                    <IconButton aria-label="editar">
+                                    <IconButton aria-label="editar" onClick={() => setSelectedToDelete(item)}>
                                         <Delete />
                                     </IconButton>
                                     </>
@@ -83,9 +105,16 @@ function Schedulings() {
                 style={{position:'fixed', bottom:'2rem', right:'2rem'}}
                 onClick={() => navigate('/app/new')}
             >
-                    <Add/>
-                    Novo agendamento
-                </Fab>
+                <Add/>
+                Novo agendamento
+            </Fab>
+            <ConfirmDialog
+                open={selectedToDelete !== null}
+                handleClose={() => setSelectedToDelete(null)}
+                title='Remover agendamento'
+                content={`Deseja remover o agendamento do dia ${new Date(selectedToDelete?.date).toLocaleDateString()}?`}
+                callback={handleDelete}
+            />
         </Container>
 
     )

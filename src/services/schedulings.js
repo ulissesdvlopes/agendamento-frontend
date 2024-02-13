@@ -30,6 +30,15 @@ export async function updateScheduling(id, data) {
     return result.data;
 }
 
+export async function deleteScheduling(id) {
+    const result = await axios.delete(
+        `${serverBaseUrl}/scheduling/${id}`,
+        {withCredentials: true}
+    );
+
+    return result.data;
+}
+
 export async function getSchedulingById(id) {
     const result = await axios.get(
         `${serverBaseUrl}/scheduling/${id}`,
