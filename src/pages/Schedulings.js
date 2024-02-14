@@ -1,39 +1,34 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { deleteScheduling, getSchedulings } from "../services/schedulings";
-import { Box, Card, CardContent, CardHeader, Container, Divider, Fab, Grid, IconButton, List, ListItem, ListItemIcon, ListItemText, Typography } from "@mui/material";
-import { Add, Build, Delete, DirectionsCar, Edit } from "@mui/icons-material";
-import { getServiceName } from "../utils/schedulings";
-import { useNavigate } from "react-router-dom";
+import { Box, Card, CardContent, CardHeader, Container, Divider, Fab, FormControl, Grid, IconButton, InputAdornment, InputLabel, List, ListItem, ListItemIcon, ListItemText, MenuItem, OutlinedInput, Select, Typography } from "@mui/material";
+import { Add, Build, Delete, DirectionsCar, Edit, Search } from "@mui/icons-material";
+import { SERVICE_TYPES, getServiceName } from "../utils/schedulings";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import ConfirmDialog from "../components/ConfirmDialog/ConfirmDialog";
 
 function Schedulings() {
 
     const navigate = useNavigate();
+
+    const [searchParams, setSearchParams] = useSearchParams();
     const [list, setList] = useState([]);
     const [selectedToDelete, setSelectedToDelete] = useState(null);
 
-    useEffect(() => {
-        // const getData = async () => {
-        //     try {
-        //         const result = await getSchedulings();
-        //         setList(result);
-
-        //     } catch (error) {
-        //         console.log('error', error);
-        //     }
-        // }
-        getData();
-    }, [])
-
-    const getData = async () => {
+    const getData = useCallback(async () => {
         try {
-            const result = await getSchedulings();
+            const vehicle = searchParams.get('vehicle') ? searchParams.get('vehicle') : ''
+            const serviceType = searchParams.get('serviceType') ? searchParams.get('serviceType') : ''
+            const result = await getSchedulings(vehicle, serviceType);
             setList(result);
 
         } catch (error) {
             console.log('error', error);
         }
-    }
+    }, [searchParams])
+
+    useEffect(() => {
+        getData();
+    }, [getData])
 
     const handleDelete = async () => {
         try {
@@ -43,6 +38,18 @@ function Schedulings() {
         } catch (error) {
             console.log(error);
         }
+    }
+
+    const setSearchVehicle = async (e) => {
+        const { value } = e.target
+        const serviceType = searchParams.get('serviceType') ? searchParams.get('serviceType') : ''
+        setSearchParams(`vehicle=${value}&serviceType=${serviceType}`);
+    }
+
+    const setServiceType = async (e) => {
+        const { value } = e.target
+        const vehicle = searchParams.get('vehicle') ? searchParams.get('vehicle') : ''
+        setSearchParams(`vehicle=${vehicle}&serviceType=${value}`);
     }
 
     return (
@@ -58,6 +65,47 @@ function Schedulings() {
                 <Typography component="h1" variant="h5">
                 Meus agendamentos
                 </Typography>
+
+                <Grid container spacing={2} sx={{marginTop:1}}>
+                    <Grid item xs={12} md={6}>
+                    <FormControl fullWidth>
+                    <InputLabel htmlFor="search-vehicle">Pesquisar veículo</InputLabel>
+                    <OutlinedInput
+                        id="search-vehicle"
+                        startAdornment={
+                            <InputAdornment position="start">
+                                <Search/>
+                            </InputAdornment>}
+                        label="Pesquisar veículo"
+                        onChange={setSearchVehicle}
+                        value={searchParams.get('vehicle')}
+                    />
+                    </FormControl>
+                    </Grid>
+                    <Grid item xs={12} md={6}>
+                    <FormControl fullWidth>
+                        <InputLabel id="service-type-label">Tipo de serviço</InputLabel>
+                        <Select
+                            labelId="service-type-label"
+                            id="service-type"
+                            value={searchParams.get('serviceType')}
+                            name="serviceType"
+                            onChange={setServiceType}
+                            input={<OutlinedInput label="Tipo de serviço" />}
+                        >
+                        {SERVICE_TYPES.map((item) => (
+                            <MenuItem
+                                key={item.value}
+                                value={item.value}
+                            >
+                            {item.label}
+                            </MenuItem>
+                        ))}
+                        </Select>
+                    </FormControl>
+                    </Grid>
+                </Grid>
+
                 <Grid container spacing={2} sx={{marginTop:1}}>
                     {list.map(item => (
                         <Grid item xs={12} md={6}>

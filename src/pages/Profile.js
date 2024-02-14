@@ -7,7 +7,6 @@ function Profile() {
 
     const { user, logout } = useAuth();
     const navigate = useNavigate();
-    console.log(user);
 
     const handleLogout = async () => {
         try {

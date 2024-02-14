@@ -1,9 +1,9 @@
 import axios from "axios";
 import { serverBaseUrl } from "./config";
 
-export async function getSchedulings() {
+export async function getSchedulings(vehicle='', serviceType='') {
     const result = await axios.get(
-        `${serverBaseUrl}/scheduling/`,
+        `${serverBaseUrl}/scheduling/?vehicle=${vehicle}&serviceType=${serviceType}`,
         {withCredentials: true}
     );
 
